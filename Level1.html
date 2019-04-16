@@ -29,12 +29,15 @@
     function preload ()
     {
         this.load.image('background', 'Background.jpeg');
-        this.load.image('sprite', 'spritestrip.webp');
-        this.load.image('villan', 'villansprite.gif');
+        this.load.spritesheet('sprite', 'spritestrip.webp', {frameWidth: 50, frameHeight: 50});
+        this.load.spritesheet('villansprite', 'villansprite.gif', {frameWidth: 50, frameHeight: 50});
     }
-
+    
     function create ()
     {
+        this.add.image(400, 300, 'background');
+        this.add.image(100, 100, 'sprite');
+        this.add.image(400, 300, 'villansprite');
     }
 
     function update ()
