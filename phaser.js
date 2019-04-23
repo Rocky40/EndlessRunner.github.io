@@ -22,18 +22,8 @@ function preload ()
 {
     this.load.image('background', 'background.png');
 
-    this.load.image('dude', 'kagato_sprites.gif')
-    
-this.anims.create({
-    key: 'left',
-    frames:
-this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
-    frameRate: 10,
-    repeat: -1
-
-})
+    this.load.image('mushroom', 'mushroom-clipart-1.png');
 }
-var platform;
 
 function create ()
 {
@@ -46,41 +36,43 @@ function create ()
     platforms.create(90, 468,
 'ground').setScale(1.5).refreshBody();
    
-     platforms.create(280, 470, 'ground');
-     platforms.create(400, 400, 'ground');
-     platforms.create(175, 520, 'ground');
-
+     platforms.create(137, 468, 'ground').setScale(1.5);
+     platforms.create(600, 400, 'ground').setScale(1.5);
+     platforms.create(410, 330, 'ground').setScale(1.5);
+     platforms.create(385,468, 'ground').setScale(1.5);
+     platforms.create(460,348,'ground').setScale(1.5);
+     platforms.create(280,468,'ground').setScale(1.5)
+     
     this.add.image(300,580,'ground')
 
-    player = this.physics.add.sprite(100, 403, 'dude',);
+    player = this.physics.add.sprite(100, 403, 'mushroom');
+    player.setScale(0.2);
 
 player.setBounce(0.2);
 player.setCollideWorldBounds(true);
 
-this.anims.create({
-    key: 'left',
-    frames:
-this.anims.generateFrameNumbers('dude', { start:0, end: 1}),
-    frameRate:10,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'turn',
-    frames: [{key: 'dude', frame:4} ],
-    frameRate: 20
-});
-
-this.anims.create({
-    key: 'right',
-    frames:
-this.anims.generateFrameNumbers('dude', {start: 5, end: 8 }),
-    frameRate: 10,
-    repeat: -1
-})
+    cursors = this.input.keyboard.createCursorKeys();
+    this.physics.add.collider(player, platforms);
 }
 
 function update ()
 {
-
+    
+if (cursors.left.isDown)
+    {
+        player.setVelocityX(-160);
+}
+else if (cursors.right.isDown)
+{
+    player.setVelocityX(160);
+}
+else
+{
+    player.setVelocityX(0);
+}
+if (cursors.up.isDown &&
+ player.body.touching.down)
+{
+    player.setVelocityY(-330);
+}
 }
