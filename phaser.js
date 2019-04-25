@@ -23,6 +23,7 @@ function preload ()
     this.load.image('background', 'background.png');
 
     this.load.image('mushroom', 'mushroom-clipart-1.png');
+    
 }
 
 function create ()
@@ -36,14 +37,15 @@ function create ()
     platforms.create(90, 468,
 'ground').setScale(1.5).refreshBody();
    
-     platforms.create(137, 468, 'ground').setScale(1.5);
-     platforms.create(600, 400, 'ground').setScale(1.5);
-     platforms.create(410, 330, 'ground').setScale(1.5);
-     platforms.create(385,468, 'ground').setScale(1.5);
-     platforms.create(460,348,'ground').setScale(1.5);
-     platforms.create(280,468,'ground').setScale(1.5)
+     platforms.create(400, 468, 'ground').setScale(1.5);
+     platforms.create(800, 230, 'ground').setScale(1.5);
+     platforms.create(510, 730, 'ground').setScale(1.5);
+     platforms.create(585, 468, 'ground').setScale(1.5);
+     platforms.create(460, 360,'ground').setScale(1.5);
+     platforms.create(280, 668,'ground').setScale(1.5);
+     platforms.create(200, 700,'ground').setScale(3);
      
-    this.add.image(300,580,'ground')
+    this.add.image(270,380,'ground')
 
     player = this.physics.add.sprite(100, 403, 'mushroom');
     player.setScale(0.2);
@@ -75,4 +77,4 @@ if (cursors.up.isDown &&
 {
     player.setVelocityY(-330);
 }
-}
+} 
