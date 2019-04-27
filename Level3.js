@@ -95,6 +95,7 @@ class playGame extends Phaser.Scene{
  
         // checking for input
         this.input.on("pointerdown", this.jump, this);
+        this.cursors = this.input.keyboard.createCursorKeys();
 
         //setting up the player
         //mysprite = this.game.add.sprite(30, 30, 'player');
@@ -138,6 +139,9 @@ class playGame extends Phaser.Scene{
         }
     }
     update(){
+        if (this.cursors.up.isDown) {
+            this.jump()
+        }
  
         // game over
         if(this.player.y > game.config.height){
