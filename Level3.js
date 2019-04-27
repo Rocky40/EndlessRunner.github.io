@@ -23,8 +23,11 @@ window.onload = function() {
 
         // physics settings
         physics: {
-            default: "arcade"
-        }
+            default: "arcade",
+            arcade: {
+                debug: false
+            }
+        },
     }
     game = new Phaser.Game(gameConfig);
     window.focus();
@@ -40,11 +43,11 @@ class playGame extends Phaser.Scene{
     preload(){
         this.load.image("background", "42190062-yellow-cartoon-clouds-background.jpg");
         this.load.image("platform", "platform.png");
-        game.load.spritesheet("player", "animate-png-files-14.png", 256, 256, 50);
+        this.load.spritesheet("player", "animate-png-files-14.png", { frameWidth: 256, frameHeight: 256});
     }
     create(){
         //currently working on this!!!!
-        this.player=game.add.sprite(100, 350, "player");
+
         
         //adding background picture
         this.add.image(660, 300, 'background');
@@ -75,7 +78,17 @@ class playGame extends Phaser.Scene{
  
         // adding the player;
         this.player = this.physics.add.sprite(gameOptions.playerStartPosition, game.config.height / 2, "player");
+        this.player.setScale(0.5, 0.5);
         this.player.setGravityY(gameOptions.playerGravity);
+
+        // define the player animation
+        this.anims.create({
+            key: 'run',
+            frames: this.anims.generateFrameNumbers('player'),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.player.anims.play('run', true);
  
         // setting collisions between the player and the platform group
         this.physics.add.collider(this.player, this.platformGroup);
@@ -93,6 +106,10 @@ class playGame extends Phaser.Scene{
     // the core of the script: platform are added from the pool or created on the fly
     addPlatform(platformWidth, posX){
         let platform;
+        if (!this.platformPool.children) {
+            return;
+        }
+
         if(this.platformPool.getLength()){
             platform = this.platformPool.getFirst();
             platform.x = posX;
@@ -130,14 +147,16 @@ class playGame extends Phaser.Scene{
  
         // recycling platforms
         let minDistance = game.config.width;
-        this.platformGroup.getChildren().forEach(function(platform){
-            let platformDistance = game.config.width - platform.x - platform.displayWidth / 2;
-            minDistance = Math.min(minDistance, platformDistance);
-            if(platform.x < - platform.displayWidth / 2){
-                this.platformGroup.killAndHide(platform);
-                this.platformGroup.remove(platform);
-            }
-        }, this);
+        if (this.platformGroup.children) {
+            this.platformGroup.getChildren().forEach(function(platform){
+                let platformDistance = game.config.width - platform.x - platform.displayWidth / 2;
+                minDistance = Math.min(minDistance, platformDistance);
+                if(platform.x < - platform.displayWidth / 2){
+                    this.platformGroup.killAndHide(platform);
+                    this.platformGroup.remove(platform);
+                }
+            }, this);
+        }
  
         // adding new platforms
         if(minDistance > this.nextPlatformDistance){
